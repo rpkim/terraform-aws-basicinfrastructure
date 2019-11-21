@@ -1,3 +1,10 @@
+# ----------------------------------------------------------------------------------------------------------------------
+# REQUIRE A SPECIFIC TERRAFORM VERSION OR HIGHER
+# ----------------------------------------------------------------------------------------------------------------------
+terraform {
+  required_version = "< 0.12"
+}
+
 resource "aws_vpc" "vpc" {
   cidr_block           = "${var.cidr_block}"
   enable_dns_hostnames = true
