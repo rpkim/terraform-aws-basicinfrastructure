@@ -1,33 +1,3 @@
-# TODO too much? consider moving peering into its own module
-
-variable name {
-  type = "string"
-}
-
-variable cidr_block {
-  type = "string"
-}
-
-variable zones {
-  type = "list"
-}
-
-variable public_subnets {
-  type = "list"
-}
-
-variable private_subnets {
-  type = "list"
-}
-
-variable db_subnets {
-  type = "list"
-}
-
-variable region {
-  type = "string"
-}
-
 resource "aws_vpc" "vpc" {
   cidr_block           = "${var.cidr_block}"
   enable_dns_hostnames = true
@@ -171,45 +141,3 @@ resource "aws_route_table_association" "db" {
   route_table_id = "${element(aws_route_table.db.*.id, count.index)}"
   subnet_id      = "${element(aws_subnet.db.*.id, count.index)}"
 }
-
-# Outputs needed by other resources
-output "id" {
-  value = "${aws_vpc.vpc.id}"
-}
-
-output "cidr_block" {
-  value = "${aws_vpc.vpc.cidr_block}"
-}
-
-output "db_route_tables" {
-  value = ["${aws_route_table.db.*.id}"]
-}
-
-output "db_subnets" {
-  value = ["${aws_subnet.db.*.id}"]
-}
-
-output "private_route_tables" {
-  value = ["${aws_route_table.private.*.id}"]
-}
-
-output "private_subnets" {
-  value = ["${aws_subnet.private.*.id}"]
-}
-
-output "public_route_table" {
-  value = "${aws_route_table.public.id}"
-}
-
-output "public_subnets" {
-  value = ["${aws_subnet.public.*.id}"]
-}
-
-output "nat_eips" {
-  value = ["${aws_eip.nat_eips.*.public_ip}"]
-}
-
-output "igw_id" {
-  value = "${aws_internet_gateway.igw.id}"
-}
-
